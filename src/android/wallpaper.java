@@ -18,14 +18,14 @@ public class wallpaper extends CordovaPlugin
 {
 	public Context context = null;
 	private static final boolean IS_AT_LEAST_LOLLIPOP = Build.VERSION.SDK_INT >= 21;
-	
+
 	@Override
 	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException
 	{
 		context = IS_AT_LEAST_LOLLIPOP ? cordova.getActivity().getWindow().getContext() : cordova.getActivity().getApplicationContext();
 		String imgSrc = "";
 		Boolean base64 = false;
-		
+
 		if (action.equals("start"))
 		{
 			imgSrc = args.getString(0);
@@ -53,11 +53,11 @@ public class wallpaper extends CordovaPlugin
 			}
 			else //normal path
 			{
-				InputStream instr = assetManager.open("www/" + image);
+				InputStream instr = assetManager.open(image);
 				bitmap = BitmapFactory.decodeStream(instr);
 			}
 			WallpaperManager myWallpaperManager = WallpaperManager.getInstance(context);
-			myWallpaperManager.setBitmap(bitmap);
+			myWallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK);
 		}
 		catch (IOException e)
 		{
